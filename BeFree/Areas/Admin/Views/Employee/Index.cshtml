@@ -10,7 +10,7 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Employee Table</h4>
-            <a asp-action="create" asp-controller="Employee"></a>
+            <a class="btn btn-success" asp-action="create" asp-controller="employee">Create New Employee</a>
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -49,7 +49,9 @@
                         {
                             count++;
                             <tr>
-                                @count
+                                <td>
+                                    @count
+                                </td>
                                 <td>
                                     <img src ="~/assets/img/@employee.ImageURL"/>
                                 </td>
@@ -63,7 +65,7 @@
                                     @employee.Facebook
                                 </td>
                                 <td>
-                                    @employee.Instagram
+                                    @employee.Twitter
                                 </td>
                                 <td>
                                     @employee.GooglePlus
@@ -72,8 +74,8 @@
                                     @employee.Position.Name
                                 </td>
                                 <td>
-                                    <a class="btn btn-warning" asp-action="Update" asp-controller="position" asp-route-id="@employee.Id"><i class="mdi mdi-border-color"></i></a>
-                                    <a class="btn btn-warning" asp-action="delete" asp-controller="position" asp-route-id="@employee.Id"><i class="mdi mdi-delete"></i></a>
+                                    <a class="btn btn-warning" asp-action="Update" asp-controller="employee" asp-route-id="@employee.Id"><i class="mdi mdi-border-color"></i></a>
+                                    <a class="btn btn-warning" asp-action="delete" asp-controller="employee" asp-route-id="@employee.Id"><i class="mdi mdi-delete"></i></a>
                                 </td>
                             </tr>
 
@@ -85,7 +87,7 @@
                         <li class="page-item @(Model.CurrentPage-1<=0?"disabled":"")"><a class="page-link" asp-route-page="@(Model.CurrentPage-2)" asp-action="Index" asp-controller="employee">Previous</a></li>
                         @for (int i = 1; i <= Model.TotalPage; i++)
                         {
-                            <li class="page-item @(Model.CurrentPage==Model.TotalPage?"disabled":"")"><a class="page-link" asp-route-page="@(i-1)" asp-action="Index" asp-controller="employee">@i</a></li>
+                            <li class="page-item @(i==Model.CurrentPage?"disabled":"")"><a class="page-link" asp-route-page="@(i-1)" asp-action="Index" asp-controller="employee">@i</a></li>
 
                         }
                         <li class="page-item @(Model.CurrentPage==Model.TotalPage?"disabled":"")"><a class="page-link" asp-route-page="@(Model.CurrentPage)" asp-action="Index" asp-controller="employee">Next</a></li>

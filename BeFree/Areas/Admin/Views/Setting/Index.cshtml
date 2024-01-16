@@ -10,7 +10,7 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Setting Table</h4>
-            <a asp-action="create" asp-controller="setting"></a>
+            <a class="btn btn-success" asp-action="create" asp-controller="setting">Create New Setting</a>
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -34,7 +34,9 @@
                         {
                             count++;
                             <tr>
-                                @count
+                                <td>
+                                    @count
+                                </td>
                                 <td>
                                     @setting.Key
                                 </td>
@@ -55,10 +57,10 @@
                         <li class="page-item @(Model.CurrentPage-1<=0?"disabled":"")"><a class="page-link" asp-route-page="@(Model.CurrentPage-2)" asp-action="Index" asp-controller="setting">Previous</a></li>
                         @for (int i = 1; i <= Model.TotalPage; i++)
                         {
-                            <li class="page-item @(Model.CurrentPage==Model.TotalPage?"disabled":"")"><a class="page-link" asp-route-page="@(i-1)" asp-action="Index" asp-controller="setting">@i</a></li>
+                            <li class="page-item @(i==Model.CurrentPage?"disabled":"")"><a class="page-link" asp-route-page="@(i-1)" asp-action="Index" asp-controller="setting">@i</a></li>
 
                         }
-                        <li class="page-item @(Model.CurrentPage==Model.TotalPage?"disabled":"")"><a class="page-link" asp-route-page="@(Model.CurrentPage)" asp-action="Index" asp-controller="setting">Next</a></li>
+                        <li class="page-item @(Model.CurrentPage==Model.TotalPage?"disabled":"")"><a class="page-link" asp-route-page="@(Model.CurrentPage+2)" asp-action="Index" asp-controller="setting">Next</a></li>
                     </ul>
                 </nav>
             </div>

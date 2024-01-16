@@ -4,7 +4,7 @@
 
 namespace BeFree.Migrations
 {
-    public partial class AddLinksColumn : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -79,7 +79,7 @@ namespace BeFree.Migrations
                     ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PositionId = table.Column<int>(type: "int", nullable: true),
                     Facebook = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Instagram = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Twitter = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GooglePlus = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

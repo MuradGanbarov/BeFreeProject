@@ -1,6 +1,7 @@
 using BeFree.DAL;
 using BeFree.Models;
 using BeFree.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
@@ -23,6 +24,11 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
     opt.Lockout.MaxFailedAccessAttempts = 3;
 
 }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(cfg =>
+{
+    cfg.LoginPath = $"/Admin/Account/Login/{cfg.ReturnUrlParameter}";
+});
 var app = builder.Build();
 app.UseRouting();
 app.UseAuthentication();

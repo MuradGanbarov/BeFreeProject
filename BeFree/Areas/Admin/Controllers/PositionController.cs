@@ -4,10 +4,14 @@ using BeFree.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BeFree.DAL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BeFree.Areas.Admin.Controllers
 {
     [Area("Admin")]
+
+    [Authorize(Roles = "Admin,Moderator")]
+    [AutoValidateAntiforgeryToken]
     public class PositionController : Controller
     {
         private readonly AppDbContext _context;
@@ -16,6 +20,9 @@ namespace BeFree.Areas.Admin.Controllers
         {
             _context = context;
         }
+
+        [Authorize(Roles = "Admin,Moderator")]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Index(int page)
         {
             double count = await _context.Categories.CountAsync();
@@ -32,6 +39,8 @@ namespace BeFree.Areas.Admin.Controllers
             return View(vm);
         }
 
+        [Authorize(Roles = "Admin,Moderator")]
+        [AutoValidateAntiforgeryToken]
         public IActionResult Create()
         {
             return View();
@@ -58,6 +67,8 @@ namespace BeFree.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin,Moderator")]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Update(int id)
         {
             if (id <= 0) return BadRequest();
@@ -87,6 +98,8 @@ namespace BeFree.Areas.Admin.Controllers
         }
 
 
+        [Authorize(Roles = "Admin,Moderator")]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             if (id <= 0) return BadRequest();

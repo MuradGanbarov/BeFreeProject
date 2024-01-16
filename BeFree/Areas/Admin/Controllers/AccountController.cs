@@ -29,7 +29,7 @@ namespace BeFree.Areas.Admin.Controllers
 
         public async Task<IActionResult> Register(RegisterVM vm)
         {
-            if (!ModelState.IsValid) return View(vm);
+            if (!ModelState.IsValid) return View();
 
             AppUser user = new()
             {
@@ -52,14 +52,14 @@ namespace BeFree.Areas.Admin.Controllers
             }
             await _signInManager.SignInAsync(user, isPersistent: false);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index","Home",new { Area=""});
 
         }
 
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Home","Index",new {Area = ""});
+            return RedirectToAction("Index","Home",new {Area = ""});
         }
 
         public IActionResult Login()
@@ -68,45 +68,36 @@ namespace BeFree.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        
+
         public async Task<IActionResult> Login(LoginVM vm)
         {
             if (!ModelState.IsValid) return View();
-            bool check = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == vm.UserNameOrEmail || u.Email == vm.UserNameOrEmail) == null;
-            if (check)
-            {
-                ModelState.AddModelError(string.Empty, "This account is not exists.Please Register");
-                return View();
-
-            }
 
             AppUser user = await _userManager.FindByNameAsync(vm.UserNameOrEmail);
-
-            if(user is null)
+            if (user is null)
             {
                 user = await _userManager.FindByEmailAsync(vm.UserNameOrEmail);
                 if (user is null)
                 {
-                    ModelState.AddModelError(string.Empty, "Incorrect username,password or email");
+                    ModelState.AddModelError(string.Empty, "Password,email or username incorrect");
                     return View();
                 }
             }
+
             var result = await _signInManager.PasswordSignInAsync(user, vm.Password, vm.IsRemember, true);
 
-            if(result.IsLockedOut)
+            if (result.IsLockedOut)
             {
-                ModelState.AddModelError(string.Empty, "Please try again in 3 minutes");
+                ModelState.AddModelError(string.Empty, "Login is not enable,please try later");
                 return View();
             }
 
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
-                ModelState.AddModelError(string.Empty, "Incorrect username,password or email");
+                ModelState.AddModelError(string.Empty, "Password,email or username incorrect");
                 return View();
             }
-
-            return RedirectToAction("Home", "Index", new { Area = "" });
-
+            return RedirectToAction("Index", "Home", new {Area=""});
         }
 
         public async Task<IActionResult> CreateRole()
@@ -122,7 +113,7 @@ namespace BeFree.Areas.Admin.Controllers
                 }
             }
 
-            return RedirectToAction("Home", "Index", new { Area = "" });
+            return RedirectToAction("Index", "Home", new { Area = "" });
         }
 
 
